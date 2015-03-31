@@ -3,13 +3,26 @@ $(document).ready(function() {
     var speed = 0,
         gearbox = 0,
         time = 0,
-        distance = 0;
+        distance = 0,
+        rpm = 750;
+
+    var peugeot = {
+        gp: '4.1',
+        gear1: '3.230',
+        gear2: '2.105',
+        gear3: '1.458',
+        gear4: '1.107',
+        gear5: '0.848',
+        hp: '75'
+    };
+
+
+
     var startRace = function() {
         start_timer();
         setInterval(
             function () {
                 console.log("time", time);
-
                 speedMS = speed*0.277777777777778;
                 console.log("speed", speedMS);
                 distance = distance + speedMS/100 ;
