@@ -1,0 +1,21 @@
+#!/bin/bash
+
+mkdir source/blocks/$1;
+
+for i in ${@:2}
+do
+    mkdir source/blocks/$1/$i;
+    if [ $i == "css" ] || [ $i == "js" ] || [ $i == "less" ];then
+        touch source/blocks/$1/$i/$1.$i
+    fi
+done
+
+if [ !$2 ];then
+    for i in js less img
+    do
+        mkdir source/blocks/$1/$i
+        if [ $i != "img" ];then
+            touch source/blocks/$1/$i/$1.$i
+        fi
+    done
+fi
