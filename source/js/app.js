@@ -8,37 +8,40 @@ $(document).ready(function() {
         rpmResolve = 0;
 
     var peugeot = {
-        gp: '3.7',
-        gear1: '3.636',
-        gear2: '1.95',
-        gear3: '1.357',
-        gear4: '0.941',
-        gear5: '0.784',
-        hp: '75'
+        gp: '4.06',
+        gear1: '3.42',
+        gear2: '1.81',
+        gear3: '1.28',
+        gear4: '0.98',
+        gear5: '0.77',
+        hp: '75',
+        weight: '1300'
+    };
+
+    var gearboxUp = function(){
+        if(gearbox == 0) {
+            rpm = 1500;
+        }
+        if(gearbox == 1) {
+            rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear2));
+        }
+        if(gearbox == 2) {
+            rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear3));
+        }
+        if(gearbox == 3) {
+            rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear4));
+        }
+        if(gearbox == 4) {
+            rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear5));
+        }
+        gearbox = gearbox + 1;
+        gearboxUpdate();
+        rpm = rpm - rpmResolve;
     };
 
     $(document).keyup(function(event){
         if (event.keyCode == 38) {
-            //var speedAuto = 1;
-            //startAuto(speedAuto);
-            if(gearbox == 0) {
-                rpm = 1500;
-            }
-            if(gearbox == 1) {
-                rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear2));
-            }
-            if(gearbox == 2) {
-                rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear3));
-            }
-            if(gearbox == 3) {
-                rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear4));
-            }
-            if(gearbox == 4) {
-                rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear5));
-            }
-            gearbox = gearbox + 1;
-            gearboxUpdate();
-            rpm = rpm - rpmResolve;
+            gearboxUp();
         }
     });
 
@@ -49,6 +52,7 @@ $(document).ready(function() {
             function () {
 
                 var gearnumber = 0;
+                var kpd = peugeot.weight/peugeot.hp/2.5;
 
                 console.log("time", time);
                 if(rpm > 6000) {
@@ -62,23 +66,27 @@ $(document).ready(function() {
                 }
                 if(gearbox == 1) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear1*rpm;
-                    rpm = rpm + (rpm/75/15)*peugeot.gear1;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear1)/10;
                 }
                 if(gearbox == 2) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear2*rpm;
-                    rpm = rpm + (rpm/75/15)*peugeot.gear2;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear2)/10;
                 }
                 if(gearbox == 3) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear3*rpm;
-                    rpm = rpm + (rpm/75/15)*peugeot.gear3;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear3)/10;
                 }
                 if(gearbox == 4) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear4*rpm;
-                    rpm = rpm + (rpm/75/15)*peugeot.gear4;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear4)/10;
                 }
                 if(gearbox == 5) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear5*rpm;
-                    rpm = rpm + (rpm/75/15)*peugeot.gear5;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear5)/10;
+                }
+
+                if(speed < 100 ) {
+                    $('#speed b').html(time);
                 }
                 console.log("speed", speed);
                 speedMS = speed*0.277777777777778;
@@ -89,11 +97,12 @@ $(document).ready(function() {
                     console.log("Гонка завершена!!!!!!!, ваше время: " + time);
                     stop_timer();
                 }
-
+                tachometer();
                 console.log("gp", peugeot.gp);
                 console.log("rpm", rpm);
                 console.log("gearbox", gearbox);
                 console.log("rpmResolve", rpmResolve);
+                console.log("kpd", kpd);
                 speedUpdate();
             },
             10
@@ -128,8 +137,10 @@ $(document).ready(function() {
     var gearboxUpdate = function() {
         $('#gearbox b').html(gearbox);
     };
-    console.log(gearbox);
     gearboxUpdate();
+    var tachometer = function() {
+        $('#tachometer b').html(Math.round(rpm));
+    };
 
 
 
@@ -146,6 +157,8 @@ $(document).ready(function() {
 
     $("#start").click(function(){
         startRace();
+        gearboxUp();
+        //startAuto(10);
 
     });
     $("#stop").click(function(){
