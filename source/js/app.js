@@ -34,9 +34,12 @@ $(document).ready(function() {
         if(gearbox == 4) {
             rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear5));
         }
-        gearbox = gearbox + 1;
-        gearboxUpdate();
-        rpm = rpm - rpmResolve;
+        if(gearbox < 5) {
+            gearbox = gearbox + 1;
+            gearboxUpdate();
+            rpm = rpm - rpmResolve;
+        }
+
     };
 
     $(document).keyup(function(event){
@@ -44,7 +47,7 @@ $(document).ready(function() {
             gearboxUp();
         }
     });
-
+    var kpd;
     var resetRPM;
     var startRace = function() {
         start_timer();
@@ -52,7 +55,20 @@ $(document).ready(function() {
             function () {
 
                 var gearnumber = 0;
-                var kpd = peugeot.weight/peugeot.hp/2.5;
+
+
+                if(rpm < 2000) {
+                    kpd = peugeot.weight/peugeot.hp/3.5;
+                }
+                else if(rpm < 3500) {
+                    kpd = peugeot.weight/peugeot.hp/3;
+                }
+                else if(rpm < 5500) {
+                    kpd = peugeot.weight/peugeot.hp/2.5;
+                }
+                else if(rpm > 5500){
+                    kpd = peugeot.weight/peugeot.hp/3.5;
+                }
 
                 console.log("time", time);
                 if(rpm > 6000) {
@@ -109,7 +125,7 @@ $(document).ready(function() {
         );
     };
     var speedUpdate = function() {
-        var	kmNum = parseInt(speed) * 0.62137;
+        var	kmNum = parseInt(speed);
         //make sure kmNum is a number then output
         if ( (speed <= 195) && !isNaN(kmNum) ){
             var speedKm = kmNum * 2 - 31;
@@ -131,7 +147,7 @@ $(document).ready(function() {
         }
 
         var needle = $("#needle");
-        TweenLite.to(needle, 2, {rotation:speedKm,  transformOrigin:"bottom right"});
+        TweenLite.to(needle, 20, {rotation:speedKm,  transformOrigin:"bottom right"});
     };
 
     var gearboxUpdate = function() {
