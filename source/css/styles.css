@@ -180,9 +180,7 @@ h6 {
   width: 150px;
 }
 #gauge {
-  position: absolute;
-  right: 0px;
-  bottom: 0px;
+
   margin-left: 40px;
   width: 334px;
   height: 260px;
@@ -234,4 +232,62 @@ h6 {
   min-width: 0;
   max-width: 1920px;
   margin: 0 auto;
+}
+#speedometer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background: #000;
+}
+
+.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* css formats for the gauge */
+.gauge .domain {
+    stroke-width: 2px;
+    stroke: #fff;
+}
+
+.gauge .tick line {
+    stroke: #fff;
+    stroke-width: 2px;
+}
+
+.gauge line {
+    stroke: #fff;
+}
+
+.gauge .arc, .gauge .cursor {
+    opacity: 0;
+}
+
+.gauge .major {
+    fill: #fff;
+    font-size: 20px;
+    font-family: 'Play', verdana, sans-serif;
+    font-weight: normal;
+}
+
+.gauge .indicator {
+    stroke: #EE3311;
+    fill: #000;
+    stroke-width: 4px;
+}
+
+/* css formats for the segment display */
+.segdisplay .on {
+    fill: #00FFFF;
+
+}
+
+.segdisplay .off {
+    fill: #00FFFF;
+    opacity: 0.15;
 }

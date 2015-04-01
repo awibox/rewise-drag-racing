@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    TweenLite.to(needle, 2, {rotation:-31,  transformOrigin:"bottom right"});
+    //TweenLite.to(needle, 2, {rotation:-31,  transformOrigin:"bottom right"});
     var speed = 0,
         gearbox = 0,
         time = 0,
@@ -84,23 +84,23 @@ $(document).ready(function() {
                 }
                 if(gearbox == 1) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear1*rpm;
-                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear1)/10;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear1);
                 }
                 if(gearbox == 2) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear2*rpm;
-                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear2)/10;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear2);
                 }
                 if(gearbox == 3) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear3*rpm;
-                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear3)/10;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear3);
                 }
                 if(gearbox == 4) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear4*rpm;
-                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear4)/10;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear4);
                 }
                 if(gearbox == 5) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear5*rpm;
-                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear5)/10;
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear5);
                 }
 
                 if(speed < 100 ) {
@@ -109,7 +109,7 @@ $(document).ready(function() {
                 console.log("speed", speed);
                 speedMS = speed*0.277777777777778;
                 console.log("speedMS", speedMS);
-                distance = distance + speedMS/100 ;
+                distance = distance + speedMS/10 ;
                 console.log("distance", distance);
                 if(distance > 400) {
                     console.log("Гонка завершена!!!!!!!, ваше время: " + time);
@@ -121,36 +121,49 @@ $(document).ready(function() {
                 console.log("gearbox", gearbox);
                 console.log("rpmResolve", rpmResolve);
                 console.log("kpd", kpd);
-                speedUpdate();
+                segDisplay.value(speed);
+                gauge.value(rpm/1000);
             },
-            10
+            100
         );
     };
-    var speedUpdate = function() {
-        var	kmNum = parseInt(speed);
-        //make sure kmNum is a number then output
-        if ( (speed <= 195) && !isNaN(kmNum) ){
-            var speedKm = kmNum * 2 - 31;
-            $('#numbers').css('text-align', 'center');
-            $('#miles').val(kmNum.toFixed(2));
-            $('#numbers').html(kmNum.toFixed(0));
-            $('#mi-km').html('Miles');
-        } else if (!isNaN(kmNum)){
-            var speedKm= 215;
-            $('#numbers').css('text-align', 'right');
-            $('#miles').val(kmNum.toFixed(2));
-            $('#numbers').html(kmNum.toFixed(0));
-            $('#mi-km').html('Miles');
-        } else {
-            $('#miles').val('');
-            $('#kilometers').val('');
-            $('#numbers').html('');
-            $("#errmsg").html("Numbers Only").show().fadeOut(1600);
-        }
 
-        var needle = $("#needle");
-        TweenLite.to(needle, 20, {rotation:speedKm,  transformOrigin:"bottom right"});
-    };
+    var svg = d3.select("#speedometer")
+        .append("svg:svg")
+        .attr("width", 300)
+        .attr("height", 280);
+
+
+    var gauge = iopctrl.arcslider()
+        .radius(120)
+        .events(false)
+        .indicator(iopctrl.defaultGaugeIndicator);
+    gauge.axis().orient("in")
+        .normalize(true)
+        .ticks(8)
+        .tickSubdivide(3)
+        .tickSize(10, 8, 10)
+        .tickPadding(5)
+        .scale(d3.scale.linear()
+            .domain([0,8])
+            .range([-3*Math.PI/4, 3*Math.PI/4]));
+
+    var segDisplay = iopctrl.segdisplay()
+        .width(80)
+        .digitCount(6)
+        .negative(false)
+        .decimals(0);
+
+    svg.append("g")
+        .attr("class", "segdisplay")
+        .attr("transform", "translate(130, 200)")
+        .call(segDisplay);
+
+    svg.append("g")
+        .attr("class", "gauge")
+        .call(gauge);
+
+    gauge.value(rpm/1000);
 
     var gearboxUpdate = function() {
         $('#gearbox b').html(gearbox);
@@ -213,10 +226,10 @@ $(document).ready(function() {
         timer = setInterval(
             function () {
                 secs++;
-                document.getElementById('timer').innerHTML = 'Время: '+ secs/100 + ' сек.';
-                time = secs/100;
+                document.getElementById('timer').innerHTML = 'Время: '+ secs/10 + ' сек.';
+                time = secs/10;
             },
-            10
+            100
         );
     }
     function stop_timer()
