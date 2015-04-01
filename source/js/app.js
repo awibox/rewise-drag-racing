@@ -4,7 +4,8 @@ $(document).ready(function() {
         gearbox = 0,
         time = 0,
         distance = 0,
-        rpm = 750;
+        rpm = 750,
+        rpmResolve = 0;
 
     var peugeot = {
         gp: '3.7',
@@ -16,6 +17,30 @@ $(document).ready(function() {
         hp: '75'
     };
 
+    $(document).keyup(function(event){
+        if (event.keyCode == 38) {
+            //var speedAuto = 1;
+            //startAuto(speedAuto);
+            if(gearbox == 0) {
+                rpm = 1500;
+            }
+            if(gearbox == 1) {
+                rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear2));
+            }
+            if(gearbox == 2) {
+                rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear3));
+            }
+            if(gearbox == 3) {
+                rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear4));
+            }
+            if(gearbox == 4) {
+                rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear5));
+            }
+            gearbox = gearbox + 1;
+            gearboxUpdate();
+            rpm = rpm - rpmResolve;
+        }
+    });
 
     var resetRPM;
     var startRace = function() {
@@ -29,23 +54,32 @@ $(document).ready(function() {
                 if(rpm > 6000) {
                     rpm = 6000;
                 }
+                if(gearbox == 0) {
+                    if(rpm > 3500) {
+                        rpm = 3500;
+                    }
+                    rpm = rpm + rpm/75;
+                }
                 if(gearbox == 1) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear1*rpm;
+                    rpm = rpm + (rpm/75/15)*peugeot.gear1;
                 }
                 if(gearbox == 2) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear2*rpm;
+                    rpm = rpm + (rpm/75/15)*peugeot.gear2;
                 }
                 if(gearbox == 3) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear3*rpm;
+                    rpm = rpm + (rpm/75/15)*peugeot.gear3;
                 }
                 if(gearbox == 4) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear4*rpm;
+                    rpm = rpm + (rpm/75/15)*peugeot.gear4;
                 }
                 if(gearbox == 5) {
-                    speed = 0.377*0.28/peugeot.gp/peugeot.gear4*rpm;
+                    speed = 0.377*0.28/peugeot.gp/peugeot.gear5*rpm;
+                    rpm = rpm + (rpm/75/15)*peugeot.gear5;
                 }
-                rpm = rpm + rpm/75/3;
-
                 console.log("speed", speed);
                 speedMS = speed*0.277777777777778;
                 console.log("speedMS", speedMS);
@@ -59,6 +93,7 @@ $(document).ready(function() {
                 console.log("gp", peugeot.gp);
                 console.log("rpm", rpm);
                 console.log("gearbox", gearbox);
+                console.log("rpmResolve", rpmResolve);
                 speedUpdate();
             },
             10
@@ -96,17 +131,7 @@ $(document).ready(function() {
     console.log(gearbox);
     gearboxUpdate();
 
-    $(document).keyup(function(event){
-        if (event.keyCode == 38) {
-            //var speedAuto = 1;
-            //startAuto(speedAuto);
-            //speed = speed+30;
-            //speedUpdate();
-            gearbox = gearbox + 1;
-            gearboxUpdate();
-            rpm = rpm - 2500;
-        }
-    });
+
 
     $(document).keyup(function(event){
         if (event.keyCode == 40) {
