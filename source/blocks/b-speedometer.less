@@ -1,54 +1,51 @@
-#gauge {
+
+/* css formats for the gauge */
+#speedometer {
   position: absolute;
-  right: 0px;
-  bottom: 0px;
-  margin-left:40px;
-  width: 334px;
-  height: 260px;
-  background: #000 url(../img/speedometer.png) no-repeat;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background: #000;
 }
 
-#needle {
-  height: 5px;
-  width: 148px;
-  background: #ff0200;
-  position: absolute;
-  bottom: 97px;
-  left: 18px;
+.gauge .domain {
+  stroke-width: 2px;
+  stroke: #fff;
 }
 
-#numbers {
-  width: 140px;
-  height: 30px;
-  background: #191919;
-  position: absolute;
-  bottom: 10px;
-  left: 85px;
-  color: #fff;
-  font-size: 1.8em;
-  line-height: 1.34em;
-  font-family: "Courier New", Courier, monospace;
-  padding: 0px 10px 5px;
-  border: 1px solid #292929;
+.gauge .tick line {
+  stroke: #fff;
+  stroke-width: 2px;
 }
 
-#circle {
-  width: 79px;
-  height: 79px;
-  background: url(../img/circle-3.png)no-repeat;
-  bottom: 59px;
-  left: 127px;
-  position: absolute;
+.gauge line {
+  stroke: #fff;
 }
 
-#mi-km {
-  bottom: -25px;
-  left: 97px;
-  text-align: center;
-  position: absolute;
-  width: 140px;
-  height: 30px;
-  color: #999;
-  font-size: 1.4em;
-  font-family: "Courier New", Courier, monospace;
+.gauge .arc, .gauge .cursor {
+  opacity: 0;
+}
+
+.gauge .major {
+  fill: #fff;
+  font-size: 20px;
+  font-family: 'Play', verdana, sans-serif;
+  font-weight: normal;
+}
+
+.gauge .indicator {
+  stroke: #EE3311;
+  fill: #000;
+  stroke-width: 4px;
+}
+
+/* css formats for the segment display */
+.segdisplay .on {
+  fill: #00FFFF;
+
+}
+
+.segdisplay .off {
+  fill: #00FFFF;
+  opacity: 0.15;
 }

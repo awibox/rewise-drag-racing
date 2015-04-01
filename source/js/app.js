@@ -7,6 +7,7 @@ $(document).ready(function() {
         rpm = 750,
         rpmResolve = 0;
 
+
     var peugeot = {
         gp: '4.06',
         gear1: '3.42',
@@ -14,13 +15,14 @@ $(document).ready(function() {
         gear3: '1.28',
         gear4: '0.98',
         gear5: '0.77',
-        hp: '75',
-        weight: '1300'
+        hp: '150',
+        weight: '1300',
+        maxrpm: '7000'
     };
 
     var gearboxUp = function(){
         if(gearbox == 0) {
-            rpm = 1500;
+            rpm = 2000;
         }
         if(gearbox == 1) {
             rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear2));
@@ -48,7 +50,8 @@ $(document).ready(function() {
         }
     });
 
-    var kpd;
+    var kpd,
+        indexkpd = (peugeot.hp/peugeot.weight)*150;
     var resetRPM;
     var startRace = function() {
         start_timer();
@@ -56,25 +59,31 @@ $(document).ready(function() {
             function () {
 
                 var gearnumber = 0;
-                var kpd = peugeot.weight/peugeot.hp/2.5;
+                //var kpd = peugeot.hp/peugeot.weight/2.5;
 
 
                 if(rpm < 2000) {
-                    kpd = peugeot.weight/peugeot.hp/3.5;
+                    kpd = indexkpd/2;
                 }
-                else if(rpm < 3500) {
-                    kpd = peugeot.weight/peugeot.hp/3;
+                else if(rpm < 3000) {
+                    kpd = indexkpd/1.6;
                 }
-                else if(rpm < 5500) {
-                    kpd = peugeot.weight/peugeot.hp/2.5;
+                else if(rpm < 4000) {
+                    kpd = indexkpd/1.4;
                 }
-                else if(rpm > 5500){
-                    kpd = peugeot.weight/peugeot.hp/3.5;
+                else if(rpm < 5000) {
+                    kpd = indexkpd/1.2;
+                }
+                else if(rpm < 6000){
+                    kpd = indexkpd/1.1;
+                }
+                else if(rpm < 7000){
+                    kpd = indexkpd/2;
                 }
 
                 console.log("time", time);
-                if(rpm > 6000) {
-                    rpm = 6000;
+                if(rpm > peugeot.maxrpm) {
+                    rpm = peugeot.maxrpm - 100;
                 }
                 if(gearbox == 0) {
                     if(rpm > 3500) {
