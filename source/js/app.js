@@ -47,6 +47,7 @@ $(document).ready(function() {
             gearboxUp();
         }
     });
+
     var kpd;
     var resetRPM;
     var startRace = function() {
@@ -55,6 +56,7 @@ $(document).ready(function() {
             function () {
 
                 var gearnumber = 0;
+                var kpd = peugeot.weight/peugeot.hp/2.5;
 
 
                 if(rpm < 2000) {
