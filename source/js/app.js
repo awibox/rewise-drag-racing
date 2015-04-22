@@ -5,7 +5,8 @@ $(document).ready(function() {
         time = 0,
         distance = 0,
         rpm = 750,
-        rpmResolve = 0;
+        rpmResolve = 0,
+        speedRound = 0;
 
 
     var peugeot = {
@@ -51,11 +52,11 @@ $(document).ready(function() {
     });
 
     var kpd,
-        indexkpd = (peugeot.hp/peugeot.weight)*150;
+        indexkpd = (peugeot.hp/peugeot.weight)*120;
     var resetRPM;
     var startRace = function() {
         start_timer();
-        setInterval(
+        var startRaceInterval = setInterval(
             function () {
 
                 var gearnumber = 0;
@@ -115,14 +116,40 @@ $(document).ready(function() {
                 if(speed < 100 ) {
                     $('#speed b').html(time);
                 }
+                if (rpm > 6500) {
+
+                } else {
+                    if(gearbox == 1) {
+                        startAuto(speed/150);
+                        speedRound = speedRound + speed/150;
+                    }
+                    if(gearbox == 2) {
+                        startAuto(speed/250);
+                        speedRound = speedRound + speed/250;
+                    }
+                    if(gearbox == 3) {
+                        startAuto(speed/350);
+                        speedRound = speedRound + speed/350;
+                    }
+                    if(gearbox == 4) {
+                        startAuto(speed/450);
+                        speedRound = speedRound + speed/450;
+                    }
+                    if(gearbox == 5) {
+                        startAuto(speed/550);
+                        speedRound = speedRound + speed/550;
+                    }
+                }
+
                 console.log("speed", speed);
+                console.log("speedRound", speedRound);
                 speedMS = speed*0.277777777777778;
                 console.log("speedMS", speedMS);
                 distance = distance + speedMS/10 ;
                 console.log("distance", distance);
                 if(distance > 400) {
-                    console.log("Гонка завершена!!!!!!!, ваше время: " + time);
-                    stop_timer();
+                    stopRace();
+                    clearInterval(startRaceInterval);
                 }
                 tachometer();
                 console.log("gp", peugeot.gp);
@@ -136,7 +163,22 @@ $(document).ready(function() {
             100
         );
     };
+    var stopRace = function () {
+        console.log("Гонка завершена!!!!!!!, ваше время: " + time);
+        stop_timer();
 
+        alert("Гонка завершена, вы прошли 400 м за " + time + " сек");
+        var speedRoundCount = 0;
+        var stopRaceInterval = setInterval(function(){
+            if(speedRoundCount < 20) {
+                startAuto(speedRound/-20);
+                speedRoundCount = speedRoundCount + 1;
+            } else {
+                clearInterval(stopRaceInterval);
+            }
+        },100);
+
+    };
     var svg = d3.select("#speedometer")
         .append("svg:svg")
         .attr("width", 300)
@@ -196,9 +238,17 @@ $(document).ready(function() {
     });
 
     $("#start").click(function(){
+        speed = 0;
+        gearbox = 0;
+        time = 0;
+        distance = 0;
+        rpm = 750;
+        rpmResolve = 0;
         startRace();
         gearboxUp();
-        //startAuto(10);
+        startAuto(10);
+        speedRound = 10;
+
 
     });
     $("#stop").click(function(){
@@ -222,7 +272,7 @@ $(document).ready(function() {
             $(".b-peugeot__wheel").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
             $(".b-content").css({"background-position-x" : -sdegree/2});
 
-        }, 0 );
+        }, 10 );
     }
 
     var timer;
