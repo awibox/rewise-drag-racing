@@ -16,7 +16,7 @@ $(document).ready(function() {
         gear3: '1.28',
         gear4: '0.98',
         gear5: '0.77',
-        hp: '150',
+        hp: '250',
         weight: '1300',
         maxrpm: '7000'
     };
@@ -119,26 +119,8 @@ $(document).ready(function() {
                 if (rpm > 6500) {
 
                 } else {
-                    if(gearbox == 1) {
-                        startAuto(speed/150);
-                        speedRound = speedRound + speed/150;
-                    }
-                    if(gearbox == 2) {
-                        startAuto(speed/250);
-                        speedRound = speedRound + speed/250;
-                    }
-                    if(gearbox == 3) {
-                        startAuto(speed/350);
-                        speedRound = speedRound + speed/350;
-                    }
-                    if(gearbox == 4) {
-                        startAuto(speed/450);
-                        speedRound = speedRound + speed/450;
-                    }
-                    if(gearbox == 5) {
-                        startAuto(speed/550);
-                        speedRound = speedRound + speed/550;
-                    }
+                    startAuto(speed/150);
+                    speedRound = speedRound + speed/150;
                 }
 
                 console.log("speed", speed);
@@ -147,7 +129,7 @@ $(document).ready(function() {
                 console.log("speedMS", speedMS);
                 distance = distance + speedMS/10 ;
                 console.log("distance", distance);
-                if(distance > 400) {
+                if(distance > 1000) {
                     stopRace();
                     clearInterval(startRaceInterval);
                 }
@@ -170,8 +152,8 @@ $(document).ready(function() {
         alert("Гонка завершена, вы прошли 400 м за " + time + " сек");
         var speedRoundCount = 0;
         var stopRaceInterval = setInterval(function(){
-            if(speedRoundCount < 20) {
-                startAuto(speedRound/-20);
+            if(speedRoundCount < 50) {
+                startAuto(speedRound/-50);
                 speedRoundCount = speedRoundCount + 1;
             } else {
                 clearInterval(stopRaceInterval);
