@@ -16,14 +16,14 @@ $(document).ready(function() {
         gear3: '1.28',
         gear4: '0.98',
         gear5: '0.77',
-        hp: '250',
-        weight: '1300',
+        hp: '150',
+        weight: '1150',
         maxrpm: '7000'
     };
 
     var gearboxUp = function(){
         if(gearbox == 0) {
-            rpm = 2000;
+            rpm = 3000;
         }
         if(gearbox == 1) {
             rpmResolve = rpm - (speed/(0.377*0.28/peugeot.gp/peugeot.gear2));
@@ -52,7 +52,7 @@ $(document).ready(function() {
     });
 
     var kpd,
-        indexkpd = (peugeot.hp/peugeot.weight)*120;
+        indexkpd = (peugeot.hp/peugeot.weight)*92;
     var resetRPM;
     var startRace = function() {
         start_timer();
@@ -64,27 +64,44 @@ $(document).ready(function() {
 
 
                 if(rpm < 2000) {
-                    kpd = indexkpd/2;
+                    kpd = indexkpd/1.5;
                 }
                 else if(rpm < 3000) {
-                    kpd = indexkpd/1.6;
+                    kpd = indexkpd/1;
+                }
+                else if(rpm < 3500) {
+                    kpd = indexkpd/2.2;
                 }
                 else if(rpm < 4000) {
-                    kpd = indexkpd/1.4;
+                    kpd = indexkpd/2.4;
+                }
+                else if(rpm < 4500) {
+                    kpd = indexkpd/2.6;
                 }
                 else if(rpm < 5000) {
-                    kpd = indexkpd/1.2;
+                    kpd = indexkpd/2.4;
+                }
+                else if(rpm < 5500) {
+                    kpd = indexkpd/2.2;
+
                 }
                 else if(rpm < 6000){
-                    kpd = indexkpd/1.1;
+                    kpd = indexkpd/2;
+                }
+                else if(rpm < 6500){
+                    kpd = indexkpd/5;
+                    gearboxUp();
+                }
+                else if(rpm < 6750){
                 }
                 else if(rpm < 7000){
-                    kpd = indexkpd/2;
+                    kpd = indexkpd/7;
+
                 }
 
                 console.log("time", time);
                 if(rpm > peugeot.maxrpm) {
-                    rpm = peugeot.maxrpm - 100;
+                    rpm = peugeot.maxrpm - 150;
                 }
                 if(gearbox == 0) {
                     if(rpm > 3500) {
@@ -94,19 +111,19 @@ $(document).ready(function() {
                 }
                 if(gearbox == 1) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear1*rpm;
-                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear1);
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear1*2);
                 }
                 if(gearbox == 2) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear2*rpm;
-                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear2);
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear2*1.7);
                 }
                 if(gearbox == 3) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear3*rpm;
-                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear3);
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear3*1.4);
                 }
                 if(gearbox == 4) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear4*rpm;
-                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear4);
+                    rpm = rpm + (kpd*peugeot.gp*peugeot.gear4*1.1);
                 }
                 if(gearbox == 5) {
                     speed = 0.377*0.28/peugeot.gp/peugeot.gear5*rpm;
