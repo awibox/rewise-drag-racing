@@ -268,7 +268,7 @@ $(document).ready(function() {
             //console.log("speed", speed);
             var srotate = "rotate(" + sdegree + "deg)";
 
-            $(".b-peugeot__wheel").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
+            $(".b-peugeot__wheel, .b-ford__wheel").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
             $(".b-content").css({"background-position-x" : -sdegree/2});
 
         }, 10 );

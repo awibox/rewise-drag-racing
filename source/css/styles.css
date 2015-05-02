@@ -156,7 +156,7 @@ h6 {
   width: 400px;
   height: 200px;
   position: absolute;
-  left: 40%;
+  left: 30%;
   bottom: 50px;
 }
 .b-peugeot__wheel {
@@ -178,6 +178,29 @@ h6 {
   top: 10px;
   right: 10px;
   width: 150px;
+}
+.b-ford {
+    background: url(../img/b-ford.png) 0 0 no-repeat;
+    width: 450px;
+    height: 200px;
+    position: absolute;
+    left: 30%;
+    bottom: -20px;
+    margin-left: -11px;
+}
+.b-ford__wheel {
+    background: url(../img/b-peugeot__wheel.png);
+    width: 58px;
+    height: 58px;
+    position: absolute;
+}
+.b-ford__wheel_forward {
+    top: 100px;
+    left: 67px;
+}
+.b-ford__wheel_back {
+    top: 105px;
+    left: 329px;
 }
 #gauge {
 
