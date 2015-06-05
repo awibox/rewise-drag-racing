@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     // Библиотека автомобилей
+
     var peugeot206 = {
         gp: '4.06',
         gear1: '3.42',
@@ -20,14 +21,15 @@ $(document).ready(function() {
         gear3: '1.28',
         gear4: '0.98',
         gear5: '0.77',
-        hp: '150',
+        hp: '250',
         weight: '1150',
         maxrpm: '7000'
     };
 
-
+    // Характеристики игровых автомобилей
 
     var firstCar = {
+        name: 'firstCar',
         speed: '0',
         gearbox: '0',
         time: '0',
@@ -37,6 +39,7 @@ $(document).ready(function() {
         speedRound: '0'
     };
     var secondCar = {
+        name: 'secondCar',
         speed: '0',
         gearbox: '0',
         time: '0',
@@ -49,39 +52,58 @@ $(document).ready(function() {
     $.extend(firstCar, peugeot206);
     $.extend(secondCar, fordFocus);
 
-    var gearboxUp = function(){
-        if(gearbox == 0) {
-            firstCarParams.rpm = 3000;
-            secondCarParams.rpm = 3000;
-        }
-        if(gearbox == 1) {
-            firstCarParams.rpmResolve = firstCarParams.rpm - (firstCarParams.speed/(0.377*0.28/firstCar.gp/firstCar.gear2));
-            secondCarParams.rpmResolve = secondCarParams.rpm - (secondCarParams.speed/(0.377*0.28/secondCar.gp/secondCar.gear2));
-        }
-        if(gearbox == 2) {
-            firstCarParams.rpmResolve = firstCarParams.rpm - (firstCarParams.speed/(0.377*0.28/firstCar.gp/firstCar.gear3));
-            secondCarParams.rpmResolve = secondCarParams.rpm - (secondCarParams.speed/(0.377*0.28/secondCar.gp/secondCar.gear3));
-        }
-        if(gearbox == 3) {
-            firstCarParams.rpmResolve = firstCarParams.rpm - (firstCarParams.speed/(0.377*0.28/firstCar.gp/firstCar.gear4));
-            secondCarParams.rpmResolve = secondCarParams.rpm - (secondCarParams.speed/(0.377*0.28/secondCar.gp/secondCar.gear4));
-        }
-        if(gearbox == 4) {
-            rpmResolve = rpm - (speed/(0.377*0.28/firstCar.gp/firstCar.gear5));
-        }
-        if(gearbox < 5) {
-            gearbox = gearbox + 1;
-            gearboxUpdate();
-            rpm = rpm - rpmResolve;
+    console.log(firstCar);
+    console.log(secondCar);
+
+
+
+
+
+
+
+    var gearboxUp = function(car){
+        if(car.gearbox == 0) {
+            car.rpm = 3000;
         }
 
+        if(car.gearbox == 1) {
+            car.rpmResolve = car.rpm - (car.speed/(0.377*0.28/car.gp/car.gear2));
+        }
+        if(car.gearbox == 2) {
+            car.rpmResolve = car.rpm - (car.speed/(0.377*0.28/car.gp/car.gear3));
+        }
+        if(car.gearbox == 3) {
+            car.rpmResolve = car.rpm - (car.speed/(0.377*0.28/car.gp/car.gear4));
+        }
+        if(car.gearbox == 4) {
+            car.rpmResolve = car.rpm - (car.speed/(0.377*0.28/car.gp/car.gear5));
+        }
+        if(car.gearbox < 5) {
+            car.gearbox = +car.gearbox + 1;
+            if (car.name === "firstCar") {
+                gearboxUpdate();
+            }
+            car.rpm = car.rpm - car.rpmResolve;
+        }
+        console.log(firstCar);
+        console.log(secondCar);
     };
 
     $(document).keyup(function(event){
         if (event.keyCode == 38) {
-            gearboxUp();
+            gearboxUp(firstCar);
         }
     });
+    $(document).keyup(function(event){
+        if (event.keyCode == 39) {
+            gearboxUp(secondCar);
+        }
+    });
+
+    var gearboxUpdate = function() {
+        $('#gearbox b').html(firstCar.gearbox);
+    };
+    gearboxUpdate();
 
     var kpd,
         indexkpd = (firstCar.hp/firstCar.weight)*92;
@@ -247,10 +269,7 @@ $(document).ready(function() {
 
     gauge.value(rpm/1000);
 
-    var gearboxUpdate = function() {
-        $('#gearbox b').html(gearbox);
-    };
-    gearboxUpdate();
+
     var tachometer = function() {
         $('#tachometer b').html(Math.round(rpm));
     };
