@@ -1,16 +1,6 @@
 $(document).ready(function() {
-    var speed = 0,
-        gearbox = 0,
-        time = 0,
-        distance = 0,
-        rpm = 750,
-        rpmResolve = 0,
-        speedRound = 0;
 
-    var firstCar, secondCar;
-
-
-
+    // Библиотека автомобилей
     var peugeot206 = {
         gp: '4.06',
         gear1: '3.42',
@@ -35,23 +25,46 @@ $(document).ready(function() {
         maxrpm: '7000'
     };
 
-    firstCar = peugeot206;
-    secondCar = fordFocus;
-    console.log(firstCar);
 
+
+    var firstCar = {
+        speed: '0',
+        gearbox: '0',
+        time: '0',
+        distance: '0',
+        rpm: '750',
+        rpmResolve: '0',
+        speedRound: '0'
+    };
+    var secondCar = {
+        speed: '0',
+        gearbox: '0',
+        time: '0',
+        distance: '0',
+        rpm: '750',
+        rpmResolve: '0',
+        speedRound: '0'
+    };
+
+    $.extend(firstCar, peugeot206);
+    $.extend(secondCar, fordFocus);
 
     var gearboxUp = function(){
         if(gearbox == 0) {
-            rpm = 3000;
+            firstCarParams.rpm = 3000;
+            secondCarParams.rpm = 3000;
         }
         if(gearbox == 1) {
-            rpmResolve = rpm - (speed/(0.377*0.28/firstCar.gp/firstCar.gear2));
+            firstCarParams.rpmResolve = firstCarParams.rpm - (firstCarParams.speed/(0.377*0.28/firstCar.gp/firstCar.gear2));
+            secondCarParams.rpmResolve = secondCarParams.rpm - (secondCarParams.speed/(0.377*0.28/secondCar.gp/secondCar.gear2));
         }
         if(gearbox == 2) {
-            rpmResolve = rpm - (speed/(0.377*0.28/firstCar.gp/firstCar.gear3));
+            firstCarParams.rpmResolve = firstCarParams.rpm - (firstCarParams.speed/(0.377*0.28/firstCar.gp/firstCar.gear3));
+            secondCarParams.rpmResolve = secondCarParams.rpm - (secondCarParams.speed/(0.377*0.28/secondCar.gp/secondCar.gear3));
         }
         if(gearbox == 3) {
-            rpmResolve = rpm - (speed/(0.377*0.28/firstCar.gp/firstCar.gear4));
+            firstCarParams.rpmResolve = firstCarParams.rpm - (firstCarParams.speed/(0.377*0.28/firstCar.gp/firstCar.gear4));
+            secondCarParams.rpmResolve = secondCarParams.rpm - (secondCarParams.speed/(0.377*0.28/secondCar.gp/secondCar.gear4));
         }
         if(gearbox == 4) {
             rpmResolve = rpm - (speed/(0.377*0.28/firstCar.gp/firstCar.gear5));
@@ -287,7 +300,7 @@ $(document).ready(function() {
             //console.log("speed", speed);
             var srotate = "rotate(" + sdegree + "deg)";
 
-            $(".b-peugeot__wheel, .b-ford__wheel").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
+            //$(".b-peugeot__wheel, .b-ford__wheel").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
             $(".b-content").css({"background-position-x" : -sdegree/2});
 
         }, 10 );
