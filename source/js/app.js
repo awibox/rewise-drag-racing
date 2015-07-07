@@ -3,50 +3,54 @@ $(document).ready(function() {
     // Библиотека автомобилей
 
     var peugeot206 = {
-        gp: '4.06',
-        gear1: '3.42',
-        gear2: '1.81',
-        gear3: '1.28',
-        gear4: '0.98',
-        gear5: '0.77',
-        hp: '150',
-        weight: '1150',
-        maxrpm: '7000'
+        gp: 4.06,
+        gear1: 3.42,
+        gear2: 1.81,
+        gear3: 1.28,
+        gear4: 0.98,
+        gear5: 0.77,
+        hp: 450,
+        weight: 1150,
+        maxrpm: 7000,
+        kpd: 0,
+        indexkpd: 12
     };
 
     var fordFocus = {
-        gp: '4.06',
-        gear1: '3.42',
-        gear2: '1.81',
-        gear3: '1.28',
-        gear4: '0.98',
-        gear5: '0.77',
-        hp: '250',
-        weight: '1150',
-        maxrpm: '7000'
+        gp: 4.06,
+        gear1: 3.42,
+        gear2: 1.81,
+        gear3: 1.28,
+        gear4: 0.98,
+        gear5: 0.77,
+        hp: 250,
+        weight: 1150,
+        maxrpm: 7000,
+        kpd: 0,
+        indexkpd: 12
     };
 
     // Характеристики игровых автомобилей
 
     var firstCar = {
         name: 'firstCar',
-        speed: '0',
-        gearbox: '0',
-        time: '0',
-        distance: '0',
-        rpm: '750',
-        rpmResolve: '0',
-        speedRound: '0'
+        speed: 0,
+        gearbox: 0,
+        time: 0,
+        distance: 0,
+        rpm: 750,
+        rpmResolve: 0,
+        speedRound: 0
     };
     var secondCar = {
         name: 'secondCar',
-        speed: '0',
-        gearbox: '0',
-        time: '0',
-        distance: '0',
-        rpm: '750',
-        rpmResolve: '0',
-        speedRound: '0'
+        speed: 0,
+        gearbox: 0,
+        time: 0,
+        distance: 0,
+        rpm: 750,
+        rpmResolve: 0,
+        speedRound: 0
     };
 
     $.extend(firstCar, peugeot206);
@@ -55,11 +59,7 @@ $(document).ready(function() {
     console.log(firstCar);
     console.log(secondCar);
 
-
-
-
-
-
+    // Повышение передач
 
     var gearboxUp = function(car){
         if(car.gearbox == 0) {
@@ -79,7 +79,7 @@ $(document).ready(function() {
             car.rpmResolve = car.rpm - (car.speed/(0.377*0.28/car.gp/car.gear5));
         }
         if(car.gearbox < 5) {
-            car.gearbox = +car.gearbox + 1;
+            car.gearbox = car.gearbox + 1;
             if (car.name === "firstCar") {
                 gearboxUpdate();
             }
@@ -105,122 +105,118 @@ $(document).ready(function() {
     };
     gearboxUpdate();
 
-    var kpd,
-        indexkpd = (firstCar.hp/firstCar.weight)*92;
-    var resetRPM;
-    var startRace = function() {
-        start_timer();
+
+
+
+
+
+
+    var startRace = function(car) {
         var startRaceInterval = setInterval(
             function () {
-
-                var gearnumber = 0;
-                //var kpd = firstCar.hp/firstCar.weight/2.5;
-
-
-                if(rpm < 2000) {
-                    kpd = indexkpd/1.5;
+                if(car.rpm < 2000) {
+                    car.kpd = car.indexkpd/1.5;
                 }
-                else if(rpm < 3000) {
-                    kpd = indexkpd/1;
+                else if(car.rpm < 3000) {
+                    car.kpd = car.indexkpd;
                 }
-                else if(rpm < 3500) {
-                    kpd = indexkpd/2.2;
+                else if(car.rpm < 3500) {
+                    car.kpd = car.indexkpd/2.2;
                 }
-                else if(rpm < 4000) {
-                    kpd = indexkpd/2.4;
+                else if(car.rpm < 4000) {
+                    car.kpd = car.indexkpd/2.4;
                 }
-                else if(rpm < 4500) {
-                    kpd = indexkpd/2.6;
+                else if(car.rpm < 4500) {
+                    car.kpd = car.indexkpd/2.6;
                 }
-                else if(rpm < 5000) {
-                    kpd = indexkpd/2.4;
+                else if(car.rpm < 5000) {
+                    car.kpd = car.indexkpd/2.4;
                 }
-                else if(rpm < 5500) {
-                    kpd = indexkpd/2.2;
+                else if(car.rpm < 5500) {
+                    car.kpd = car.indexkpd/2.2;
 
                 }
-                else if(rpm < 6000){
-                    kpd = indexkpd/2;
+                else if(car.rpm < 6000){
+                    car.kpd = car.indexkpd/2;
                 }
-                else if(rpm < 6500){
-                    kpd = indexkpd/5;
-                    gearboxUp();
-                }
-                else if(rpm < 6750){
-                }
-                else if(rpm < 7000){
-                    kpd = indexkpd/7;
-
-                }
-
-                console.log("time", time);
-                if(rpm > firstCar.maxrpm) {
-                    rpm = firstCar.maxrpm - 150;
-                }
-                if(gearbox == 0) {
-                    if(rpm > 3500) {
-                        rpm = 3500;
+                else if(car.rpm < 6500){
+                    car.kpd = car.indexkpd/5;
+                    if (car.name === "secondCar") {
+                        gearboxUp(secondCar);
+                        console.log('up gearbox ford');
                     }
-                    rpm = rpm + rpm/75;
+
                 }
-                if(gearbox == 1) {
-                    speed = 0.377*0.28/firstCar.gp/firstCar.gear1*rpm;
-                    rpm = rpm + (kpd*firstCar.gp*firstCar.gear1*2);
+                else if(car.rpm < 6750){
                 }
-                if(gearbox == 2) {
-                    speed = 0.377*0.28/firstCar.gp/firstCar.gear2*rpm;
-                    rpm = rpm + (kpd*firstCar.gp*firstCar.gear2*1.7);
-                }
-                if(gearbox == 3) {
-                    speed = 0.377*0.28/firstCar.gp/firstCar.gear3*rpm;
-                    rpm = rpm + (kpd*firstCar.gp*firstCar.gear3*1.4);
-                }
-                if(gearbox == 4) {
-                    speed = 0.377*0.28/firstCar.gp/firstCar.gear4*rpm;
-                    rpm = rpm + (kpd*firstCar.gp*firstCar.gear4*1.1);
-                }
-                if(gearbox == 5) {
-                    speed = 0.377*0.28/firstCar.gp/firstCar.gear5*rpm;
-                    rpm = rpm + (kpd*firstCar.gp*firstCar.gear5);
+                else if(car.rpm < 7000){
+                    car.kpd = car.indexkpd/7;
+
                 }
 
-                if(speed < 100 ) {
-                    $('#speed b').html(time);
+                if(car.rpm > car.maxrpm) {
+                    car.rpm = car.maxrpm - 150;
                 }
-                if (rpm > 6500) {
+                if(car.gearbox == 0) {
+                    if(car.rpm > 3500) {
+                        car.rpm = 3500;
+                    }
+                    car.rpm = car.rpm + car.rpm/75;
+                }
+                if(car.gearbox == 1) {
+                    car.speed = 0.377*0.28/car.gp/car.gear1*car.rpm;
+                    car.rpm = car.rpm + (car.kpd*car.gp*car.gear1*2);
+                }
+                if(car.gearbox == 2) {
+                    car.speed = 0.377*0.28/car.gp/car.gear2*car.rpm;
+                    car.rpm = car.rpm + (car.kpd*car.gp*car.gear2*1.7);
+                }
+                if(car.gearbox == 3) {
+                    car.speed = 0.377*0.28/car.gp/car.gear3*car.rpm;
+                    car.rpm = car.rpm + (car.kpd*car.gp*car.gear3*1.4);
+                }
+                if(car.gearbox == 4) {
+                    car.speed = 0.377*0.28/car.gp/car.gear4*car.rpm;
+                    car.rpm = car.rpm + (car.kpd*car.gp*car.gear4*1.1);
+                }
+                if(car.gearbox == 5) {
+                    car.speed = 0.377*0.28/car.gp/car.gear5*car.rpm;
+                    car.rpm = car.rpm + (car.kpd*car.gp*car.gear5);
+                }
+
+                if(car.speed < 100 ) {
+                    $('#speed b').html(Math.round(car.time));
+                }
+                if (car.rpm > 6500) {
 
                 } else {
-                    startAuto(speed/150);
-                    speedRound = speedRound + speed/150;
+                    startAuto(car.speed/150);
+                    car.speedRound = car.speedRound + car.speed/150;
                 }
 
-                console.log("speed", speed);
-                console.log("speedRound", speedRound);
-                speedMS = speed*0.277777777777778;
-                console.log("speedMS", speedMS);
-                distance = distance + speedMS/10 ;
-                console.log("distance", distance);
-                if(distance > 1000) {
-                    stopRace();
+                car.time = car.time + 0.1;
+                car.speedMS = car.speed*0.277777777777778;
+                car.distance = car.distance + car.speedMS/10;
+
+                if(car.distance > 1000) {
+                    stopRace(car);
                     clearInterval(startRaceInterval);
                 }
                 tachometer();
-                console.log("gp", firstCar.gp);
-                console.log("rpm", rpm);
-                console.log("gearbox", gearbox);
-                console.log("rpmResolve", rpmResolve);
-                console.log("kpd", kpd);
-                segDisplay.value(speed);
-                gauge.value(rpm/1000);
+
+                if (car.name === "firstCar") {
+                    segDisplay.value(car.speed);
+                    gauge.value(car.rpm/1000);
+                }
             },
             100
         );
     };
-    var stopRace = function () {
-        console.log("Гонка завершена!!!!!!!, ваше время: " + time);
+    var stopRace = function (car) {
+        console.log("Гонка завершена!!!!!!!, ваше время: " + car.time);
         stop_timer();
 
-        alert("Гонка завершена, вы прошли 400 м за " + time + " сек");
+        alert("Гонка завершена, вы прошли 400 м за " + car.time + " сек");
         var speedRoundCount = 0;
         var stopRaceInterval = setInterval(function(){
             if(speedRoundCount < 50) {
@@ -267,11 +263,11 @@ $(document).ready(function() {
         .attr("class", "gauge")
         .call(gauge);
 
-    gauge.value(rpm/1000);
+    gauge.value(firstCar.rpm/1000);
 
 
     var tachometer = function() {
-        $('#tachometer b').html(Math.round(rpm));
+        $('#tachometer b').html(Math.round(firstCar.rpm));
     };
 
 
@@ -288,16 +284,12 @@ $(document).ready(function() {
     });
 
     $("#start").click(function(){
-        speed = 0;
-        gearbox = 0;
-        time = 0;
-        distance = 0;
-        rpm = 750;
-        rpmResolve = 0;
-        startRace();
-        gearboxUp();
-        startAuto(10);
-        speedRound = 10;
+        startRace(firstCar);
+        startRace(secondCar);
+        gearboxUp(firstCar);
+        gearboxUp(secondCar);
+        //startAuto(10);
+        //speedRound = 10;
 
 
     });
@@ -305,7 +297,7 @@ $(document).ready(function() {
         //var speedAuto = -15;
         //startAuto(speedAuto);
         //$(".b-peugeot").animate({"margin-left": "+=150px"}, 100);
-        stop_timer();
+        //stop_timer();
     });
 
 
@@ -317,34 +309,11 @@ $(document).ready(function() {
             sdegree = sdegree - speed;
             //console.log("sdegree", sdegree);
             //console.log("speed", speed);
-            var srotate = "rotate(" + sdegree + "deg)";
+            //var srotate = "rotate(" + sdegree + "deg)";
 
             //$(".b-peugeot__wheel, .b-ford__wheel").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
-            $(".b-content").css({"background-position-x" : -sdegree/2});
+            //$(".b-content").css({"background-position-x" : -sdegree/2});
 
         }, 10 );
-    }
-
-    var timer;
-    function start_timer()
-    {
-
-        if (timer) clearInterval(timer);
-        secs = 0;
-        document.getElementById('timer').innerHTML = 'Время: '+ secs + ' сек.';
-        timer = setInterval(
-            function () {
-                secs++;
-                document.getElementById('timer').innerHTML = 'Время: '+ secs/10 + ' сек.';
-                time = secs/10;
-            },
-            100
-        );
-    }
-    function stop_timer()
-    {
-        if (timer) clearInterval(timer);
-    }
-
-
+    };
 });
