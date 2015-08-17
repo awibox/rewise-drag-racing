@@ -9,11 +9,11 @@ $(document).ready(function() {
         gear3: 1.28,
         gear4: 0.98,
         gear5: 0.77,
-        hp: 450,
+        hp: 650,
         weight: 1150,
         maxrpm: 7000,
         kpd: 0,
-        indexkpd: 12
+        indexkpd: 15
     };
 
     var fordFocus = {
@@ -23,7 +23,7 @@ $(document).ready(function() {
         gear3: 1.28,
         gear4: 0.98,
         gear5: 0.77,
-        hp: 250,
+        hp: 100,
         weight: 1150,
         maxrpm: 7000,
         kpd: 0,
@@ -108,7 +108,7 @@ $(document).ready(function() {
 
 
 
-
+    // начало гонки
 
 
     var startRace = function(car) {
@@ -207,6 +207,7 @@ $(document).ready(function() {
                 if (car.name === "firstCar") {
                     segDisplay.value(car.speed);
                     gauge.value(car.rpm/1000);
+                    $('#secondCar').css("margin-left", (firstCar.distance-secondCar.distance)*10);
                 }
             },
             100
@@ -214,7 +215,6 @@ $(document).ready(function() {
     };
     var stopRace = function (car) {
         console.log("Гонка завершена!!!!!!!, ваше время: " + car.time);
-        stop_timer();
 
         alert("Гонка завершена, вы прошли 400 м за " + car.time + " сек");
         var speedRoundCount = 0;
@@ -307,12 +307,12 @@ $(document).ready(function() {
     var startAuto = function(speed) {
         setInterval(function() {
             sdegree = sdegree - speed;
-            //console.log("sdegree", sdegree);
-            //console.log("speed", speed);
-            //var srotate = "rotate(" + sdegree + "deg)";
+            console.log("sdegree", sdegree);
+            console.log("speed", speed);
+            var srotate = "rotate(" + sdegree + "deg)";
 
-            //$(".b-peugeot__wheel, .b-ford__wheel").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
-            //$(".b-content").css({"background-position-x" : -sdegree/2});
+            $(".b-peugeot__wheel, .b-ford__wheel").css({"-moz-transform" : srotate, "-webkit-transform" : srotate});
+            $(".b-content").css({"background-position-x" : -sdegree/2});
 
         }, 10 );
     };
