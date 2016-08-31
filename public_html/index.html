@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html class="i-ua_js_no i-ua_css_standard">
+<head>
+    <meta charset="utf-8">
+    <title>BEM Builder</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/iopctrl.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Play:700,400' type='text/css'>
+
+
+</head>
+
+<body class="b-page">
+
+<span id="speedometer"></span>
+
+
+<!--<div class="b-header">-->
+    <!--<div class="b-wrapper clearfix">-->
+        <!--<div class="b-header__name">BEM Builder</div>-->
+        <!--<a href="https://github.com/awibox/bem-builder" class="b-header__author">github</a>-->
+    <!--</div>-->
+<!--</div>-->
+<div class="b-content">
+    <div class="b-peugeot" id="firstCar">
+        <div class="b-peugeot__wheel b-peugeot__wheel_forward"></div>
+        <div class="b-peugeot__wheel b-peugeot__wheel_back"></div>
+    </div>
+    <div class="b-ford" id="secondCar">
+        <div class="b-ford__wheel b-ford__wheel_forward"></div>
+        <div class="b-ford__wheel b-ford__wheel_back"></div>
+    </div>
+    <div class="panel">
+        <button id="start">Старт</button>
+        <button id="stop">Стоп</button>
+        <div id="timer"></div>
+        <div id="gearbox">Передача: <b></b></div>
+        <div id="speed">До 100 км/ч: <b></b></div>
+        <div id="tachometer">Оборты: <b></b></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    var settings = {
+        distance: '400'
+    };
+
     // Библиотека автомобилей
 
     var peugeot206 = {
@@ -14,7 +18,7 @@ $(document).ready(function() {
         weight: 1150,
         maxrpm: 7000,
         kpd: 0,
-        indexkpd: 15
+        indexkpd: 18
     };
 
     var fordFocus = {
@@ -198,7 +202,7 @@ $(document).ready(function() {
                 car.speedMS = car.speed*0.277777777777778;
                 car.distance = car.distance + car.speedMS/10;
 
-                if(car.distance > 1000) {
+                if(car.distance > settings.distance) {
                     stopRace(car);
                     clearInterval(startRaceInterval);
                 }
